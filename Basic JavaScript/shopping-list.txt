@@ -1,0 +1,1 @@
+const myList = [["shirts",20],["shoes", 30],["Tie",20],["Pant",10],["cap",50]];

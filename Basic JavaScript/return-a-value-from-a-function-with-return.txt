@@ -1,0 +1,5 @@
+function timesFive (a){
+  var newValue = a*5
+  return newValue;
+}
+timesFive(4)

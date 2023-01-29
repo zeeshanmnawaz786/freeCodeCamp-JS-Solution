@@ -1,0 +1,48 @@
+function checkCashRegister(price, cash, cid) {
+  let change = cash - price;
+  let totalCid = cid.reduce((acc, curr) => acc + curr[1], 0);
+  let changeArr = [];
+  let currencies = [    ["PENNY", 0.01],
+    ["NICKEL", 0.05],
+    ["DIME", 0.1],
+    ["QUARTER", 0.25],
+    ["ONE", 1],
+    ["FIVE", 5],
+    ["TEN", 10],
+    ["TWENTY", 20],
+    ["ONE HUNDRED", 100]
+  ];
+
+  if (totalCid < change) {
+    return { status: "INSUFFICIENT_FUNDS", change: [] };
+  }
+
+  if (totalCid === change) {
+    return { status: "CLOSED", change: cid };
+  }
+
+  for (let i = currencies.length - 1; i >= 0; i--) {
+    let currency = currencies[i][1];
+    let currencyName = currencies[i][0];
+    let cidIndex = cid.findIndex(x => x[0] === currencyName);
+    let value = 0;
+
+    while (cid[cidIndex][1] > 0 && change >= currency) {
+      change -= currency;
+      cid[cidIndex][1] -= currency;
+      value += currency;
+      change = Math.round(change * 100) / 100;
+    }
+
+    if (value > 0) {
+      changeArr.push([currencyName, value]);
+    }
+  }
+
+  if (change > 0) {
+    return { status: "INSUFFICIENT_FUNDS", change: [] };
+  }
+
+  return { status: "OPEN", change: changeArr };
+}
+console.log(checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));

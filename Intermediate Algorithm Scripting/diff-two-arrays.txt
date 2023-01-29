@@ -1,0 +1,7 @@
+function diffArray(arr1, arr2) {
+  const difference = new Set(arr1);
+  arr2.forEach((ele) =>
+    difference.has(ele) ? difference.delete(ele) : difference.add(ele)
+  );
+  return Array.from(difference);
+}
